@@ -38,7 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Flexible(
+        SizedBox(
+          width: 270,
           child: SettingsBar(
             appState: _appState,
           ),

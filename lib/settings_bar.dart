@@ -34,6 +34,9 @@ class _SettingsBarState extends State<SettingsBar> {
                   onChanged: appState.setL1,
                 ),
               ),
+              Observer(
+                builder: (_) => Text(appState.l1.toStringAsFixed(2)),
+              ),
             ],
           ),
           Row(
@@ -48,6 +51,9 @@ class _SettingsBarState extends State<SettingsBar> {
                   min: 0.1,
                   onChanged: appState.setL2,
                 ),
+              ),
+              Observer(
+                builder: (_) => Text(appState.l2.toStringAsFixed(2)),
               ),
             ],
           ),
