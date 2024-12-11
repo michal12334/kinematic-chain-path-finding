@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:kinematic_chain_path_finding/app_state.dart';
 import 'package:kinematic_chain_path_finding/settings_bar.dart';
 
 void main() {
@@ -22,19 +24,33 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final AppState _appState = AppState();
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Flexible(flex: 1, child: const SettingsBar()),
+        Flexible(
+            flex: 1,
+            child: SettingsBar(
+              appState: _appState,
+            )),
         Flexible(
           flex: 5,
           child: SizedBox.expand(
-            child: CustomPaint(
-              painter: MyPainter(robot: Robot(l1: 0.3, l2: 0.5)),
+            child: Observer(
+              builder: (_) => CustomPaint(
+                painter:
+                    MyPainter(robot: Robot(l1: _appState.l1, l2: _appState.l2)),
+              ),
             ),
           ),
         ),
