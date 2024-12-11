@@ -24,13 +24,14 @@ class _SettingsBarState extends State<SettingsBar> {
           Row(
             children: [
               const Padding(
-                  padding: EdgeInsets.only(left: 10.0), child: Text("l1")),
+                padding: EdgeInsets.only(left: 10),
+                child: Text('l1'),
+              ),
               Observer(
                 builder: (_) => Slider(
                   value: appState.l1,
                   min: 0.1,
-                  max: 1.0,
-                  onChanged: (v) => appState.setL1(v),
+                  onChanged: appState.setL1,
                 ),
               ),
             ],
@@ -38,36 +39,38 @@ class _SettingsBarState extends State<SettingsBar> {
           Row(
             children: [
               const Padding(
-                  padding: EdgeInsets.only(left: 10.0), child: Text("l2")),
+                padding: EdgeInsets.only(left: 10),
+                child: Text('l2'),
+              ),
               Observer(
                 builder: (_) => Slider(
                   value: appState.l2,
                   min: 0.1,
-                  max: 1.0,
-                  onChanged: (v) => appState.setL2(v),
+                  onChanged: appState.setL2,
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(
-          onDestinationSelected: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          selectedIndex: currentPageIndex,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.post_add_outlined),
-              label: "asdf",
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.aspect_ratio_rounded),
-              label: "qwer",
-            ),
-          ]),
+        onDestinationSelected: (index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        selectedIndex: currentPageIndex,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.post_add_outlined),
+            label: 'asdf',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.aspect_ratio_rounded),
+            label: 'qwer',
+          ),
+        ],
+      ),
     );
   }
 }

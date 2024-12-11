@@ -39,10 +39,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Row(
       children: [
         Flexible(
-            flex: 1,
-            child: SettingsBar(
-              appState: _appState,
-            )),
+          child: SettingsBar(
+            appState: _appState,
+          ),
+        ),
         Flexible(
           flex: 5,
           child: SizedBox.expand(
@@ -74,8 +74,9 @@ class MyPainter extends CustomPainter {
     final c1 = _getNormalizedCoords(_robot.l1, 0, size);
     final c2 = _getNormalizedCoords(_robot.l1, _robot.l2, size);
 
-    canvas.drawLine(Offset(c0.$1, c0.$2), Offset(c1.$1, c1.$2), paint);
-    canvas.drawLine(Offset(c1.$1, c1.$2), Offset(c2.$1, c2.$2), paint);
+    canvas
+      ..drawLine(Offset(c0.$1, c0.$2), Offset(c1.$1, c1.$2), paint)
+      ..drawLine(Offset(c1.$1, c1.$2), Offset(c2.$1, c2.$2), paint);
   }
 
   @override
