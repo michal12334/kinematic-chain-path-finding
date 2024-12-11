@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
+import 'package:kinematic_chain_path_finding/header_text.dart';
 
 class SettingsBar extends StatefulWidget {
   const SettingsBar({super.key, required this.appState});
@@ -21,6 +22,7 @@ class _SettingsBarState extends State<SettingsBar> {
     return Scaffold(
       body: ListView(
         children: [
+          const HeaderText('Robot parameters'),
           Row(
             children: [
               const Padding(
