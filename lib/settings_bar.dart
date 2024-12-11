@@ -19,7 +19,7 @@ class _SettingsBarState extends State<SettingsBar> {
     final appState = widget.appState;
 
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
           Row(
             children: [
