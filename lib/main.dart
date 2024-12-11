@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kinematic_chain_path_finding/settings_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +27,18 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: MyPainter(robot: Robot(l1: 0.3, l2: 0.5)),
+    return Row(
+      children: [
+        Flexible(flex: 1, child: const SettingsBar()),
+        Flexible(
+          flex: 5,
+          child: SizedBox.expand(
+            child: CustomPaint(
+              painter: MyPainter(robot: Robot(l1: 0.3, l2: 0.5)),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
