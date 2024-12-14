@@ -10,6 +10,11 @@ abstract class AppStateBase with Store {
   @observable
   double l2 = 0.5;
 
+  @observable
+  double x = 0.5;
+  @observable
+  double y = 0;
+
   @action
   void setL1(double l1) {
     this.l1 = l1;
@@ -18,5 +23,15 @@ abstract class AppStateBase with Store {
   @action
   void setL2(double l2) {
     this.l2 = l2;
+  }
+
+  @action
+  void setX(double x) {
+    this.x = x;
+  }
+
+  @action
+  void setY(double y) {
+    this.y = y;
   }
 }

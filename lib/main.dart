@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
@@ -49,8 +51,14 @@ class _MyHomePageState extends State<MyHomePage> {
           child: SizedBox.expand(
             child: Observer(
               builder: (_) => CustomPaint(
-                painter:
-                    MyPainter(robot: Robot(l1: _appState.l1, l2: _appState.l2)),
+                painter: MyPainter(
+                  robot: Robot(
+                    l1: _appState.l1,
+                    l2: _appState.l2,
+                    x: _appState.x,
+                    y: _appState.y,
+                  ),
+                ),
               ),
             ),
           ),
@@ -67,13 +75,27 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (_robot.x1 != null) {
+      _drawRobot(canvas, size, _robot.x1!, _robot.y1!, _robot.x, _robot.y);
+      _drawRobot(canvas, size, _robot.x2!, _robot.y2!, _robot.x, _robot.y);
+    }
+  }
+
+  void _drawRobot(
+    Canvas canvas,
+    Size size,
+    double x1,
+    double y1,
+    double x,
+    double y,
+  ) {
     final paint = Paint()
       ..color = Colors.white
       ..strokeWidth = 4;
 
     final c0 = _getNormalizedCoords(0, 0, size);
-    final c1 = _getNormalizedCoords(_robot.l1, 0, size);
-    final c2 = _getNormalizedCoords(_robot.l1, _robot.l2, size);
+    final c1 = _getNormalizedCoords(x1, y1, size);
+    final c2 = _getNormalizedCoords(x, y, size);
 
     canvas
       ..drawLine(Offset(c0.$1, c0.$2), Offset(c1.$1, c1.$2), paint)
@@ -93,8 +115,33 @@ class MyPainter extends CustomPainter {
 }
 
 class Robot {
-  Robot({required this.l1, required this.l2});
+  Robot({
+    required this.l1,
+    required this.l2,
+    required this.x,
+    required this.y,
+  }) {
+    if (x * x + y * y > (l1 + l2) * (l1 + l2)) {
+      x1 = y1 = x2 = y2 = null;
+      return;
+    }
+    if (y == 0) {
+      x1 = x2 = (l1 * l1 - l2 * l2 + x * x) / (2 * x);
+      y1 = sqrt(l1 * l1 - pow(l1 * l1 - l2 * l2 + x * x, 2) / (4 * x * x));
+      y2 = -y1!;
+    } else {
+      // x1 = 1 / (2 * (x*x + y*y)) * (-sqrt())
+      x1 = y1 = x2 = y2 = null;
+    }
+  }
 
   final double l1;
   final double l2;
+  final double x;
+  final double y;
+
+  late final double? x1;
+  late final double? y1;
+  late final double? x2;
+  late final double? y2;
 }
