@@ -39,6 +39,36 @@ mixin _$AppState on AppStateBase, Store {
     });
   }
 
+  late final _$xAtom = Atom(name: 'AppStateBase.x', context: context);
+
+  @override
+  double get x {
+    _$xAtom.reportRead();
+    return super.x;
+  }
+
+  @override
+  set x(double value) {
+    _$xAtom.reportWrite(value, super.x, () {
+      super.x = value;
+    });
+  }
+
+  late final _$yAtom = Atom(name: 'AppStateBase.y', context: context);
+
+  @override
+  double get y {
+    _$yAtom.reportRead();
+    return super.y;
+  }
+
+  @override
+  set y(double value) {
+    _$yAtom.reportWrite(value, super.y, () {
+      super.y = value;
+    });
+  }
+
   late final _$AppStateBaseActionController =
       ActionController(name: 'AppStateBase', context: context);
 
@@ -65,10 +95,34 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void setX(double x) {
+    final _$actionInfo =
+        _$AppStateBaseActionController.startAction(name: 'AppStateBase.setX');
+    try {
+      return super.setX(x);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setY(double y) {
+    final _$actionInfo =
+        _$AppStateBaseActionController.startAction(name: 'AppStateBase.setY');
+    try {
+      return super.setY(y);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 l1: ${l1},
-l2: ${l2}
+l2: ${l2},
+x: ${x},
+y: ${y}
     ''';
   }
 }

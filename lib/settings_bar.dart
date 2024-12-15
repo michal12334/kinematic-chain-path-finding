@@ -23,41 +23,36 @@ class _SettingsBarState extends State<SettingsBar> {
       body: ListView(
         children: [
           const HeaderText('Robot parameters'),
-          Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Text('l1'),
-              ),
-              Observer(
-                builder: (_) => Slider(
-                  value: appState.l1,
-                  min: 0.1,
-                  onChanged: appState.setL1,
-                ),
-              ),
-              Observer(
-                builder: (_) => Text(appState.l1.toStringAsFixed(2)),
-              ),
-            ],
+          Observer(
+            builder: (_) => DragValue(
+              text: 'l1',
+              value: appState.l1,
+              onChanged: appState.setL1,
+              min: 0.1,
+            ),
           ),
-          Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Text('l2'),
-              ),
-              Observer(
-                builder: (_) => Slider(
-                  value: appState.l2,
-                  min: 0.1,
-                  onChanged: appState.setL2,
-                ),
-              ),
-              Observer(
-                builder: (_) => Text(appState.l2.toStringAsFixed(2)),
-              ),
-            ],
+          Observer(
+            builder: (_) => DragValue(
+              text: 'l2',
+              value: appState.l2,
+              onChanged: appState.setL2,
+              min: 0.1,
+            ),
+          ),
+          const HeaderText('Start position'),
+          Observer(
+            builder: (_) => DragValue(
+              text: 'x',
+              value: appState.x,
+              onChanged: appState.setX,
+            ),
+          ),
+          Observer(
+            builder: (_) => DragValue(
+              text: 'y',
+              value: appState.y,
+              onChanged: appState.setY,
+            ),
           ),
         ],
       ),
@@ -79,6 +74,42 @@ class _SettingsBarState extends State<SettingsBar> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DragValue extends StatelessWidget {
+  const DragValue({
+    super.key,
+    required this.text,
+    required this.value,
+    required this.onChanged,
+    this.min = 0.0,
+    this.max = 1.0,
+  });
+
+  final String text;
+  final double value;
+  final void Function(double) onChanged;
+  final double min;
+  final double max;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: Text(text),
+        ),
+        Slider(
+          value: value,
+          min: min,
+          max: max,
+          onChanged: onChanged,
+        ),
+        Text(value.toStringAsFixed(2)),
+      ],
     );
   }
 }
