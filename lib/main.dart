@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
 import 'package:kinematic_chain_path_finding/robot.dart';
+import 'package:kinematic_chain_path_finding/scene_painter.dart';
 import 'package:kinematic_chain_path_finding/settings_bar.dart';
 
 void main() {
@@ -48,18 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Flexible(
           flex: 5,
           child: SizedBox.expand(
-            child: Observer(
-              builder: (_) => CustomPaint(
-                painter: MyPainter(
-                  robot: Robot(
-                    l1: _appState.l1,
-                    l2: _appState.l2,
-                    x: _appState.x,
-                    y: _appState.y,
-                  ),
-                ),
-              ),
-            ),
+            child: Scene(appState: _appState),
           ),
         ),
       ],
@@ -67,65 +58,39 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MyPainter extends CustomPainter {
-  MyPainter({super.repaint, required Robot robot}) : _robot = robot;
+class Scene extends StatelessWidget {
+  const Scene({
+    super.key,
+    required AppState appState,
+  }) : _appState = appState;
 
-  final Robot _robot;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (_robot.x1 != null) {
-      _drawRobot(
-        canvas,
-        size,
-        _robot.x1!,
-        _robot.y1!,
-        _robot.x,
-        _robot.y,
-        Colors.green.shade300,
-      );
-      _drawRobot(
-        canvas,
-        size,
-        _robot.x2!,
-        _robot.y2!,
-        _robot.x,
-        _robot.y,
-        Colors.blue.shade300,
-      );
-    }
-  }
-
-  void _drawRobot(
-    Canvas canvas,
-    Size size,
-    double x1,
-    double y1,
-    double x,
-    double y,
-    Color color,
-  ) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 4;
-
-    final c0 = _getNormalizedCoords(0, 0, size);
-    final c1 = _getNormalizedCoords(x1, y1, size);
-    final c2 = _getNormalizedCoords(x, y, size);
-
-    canvas
-      ..drawLine(Offset(c0.$1, c0.$2), Offset(c1.$1, c1.$2), paint)
-      ..drawLine(Offset(c1.$1, c1.$2), Offset(c2.$1, c2.$2), paint);
-  }
+  final AppState _appState;
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerDown: (event) {
+        final x = event.localPosition.dx / context.size!.width * 2 - 1;
+        final y = event.localPosition.dy / context.size!.height * (-2) + 1;
 
-  (double x, double y) _getNormalizedCoords(double x, double y, Size size) {
-    final rx = (x + 1) / 2 * size.width;
-    final ry = (-y + 1) / 2 * size.height;
-    return (rx, ry);
+        if (event.buttons == kPrimaryMouseButton) {
+          _appState
+            ..setX(x)
+            ..setY(y);
+        }
+      },
+      child: Observer(
+        builder: (_) => CustomPaint(
+          painter: ScenePainter(
+            robot: Robot(
+              l1: _appState.l1,
+              l2: _appState.l2,
+              x: _appState.x,
+              y: _appState.y,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
