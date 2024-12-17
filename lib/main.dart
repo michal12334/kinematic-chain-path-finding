@@ -75,8 +75,24 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (_robot.x1 != null) {
-      _drawRobot(canvas, size, _robot.x1!, _robot.y1!, _robot.x, _robot.y);
-      _drawRobot(canvas, size, _robot.x2!, _robot.y2!, _robot.x, _robot.y);
+      _drawRobot(
+        canvas,
+        size,
+        _robot.x1!,
+        _robot.y1!,
+        _robot.x,
+        _robot.y,
+        Colors.green.shade300,
+      );
+      _drawRobot(
+        canvas,
+        size,
+        _robot.x2!,
+        _robot.y2!,
+        _robot.x,
+        _robot.y,
+        Colors.blue.shade300,
+      );
     }
   }
 
@@ -87,9 +103,10 @@ class MyPainter extends CustomPainter {
     double y1,
     double x,
     double y,
+    Color color,
   ) {
     final paint = Paint()
-      ..color = Colors.white
+      ..color = color
       ..strokeWidth = 4;
 
     final c0 = _getNormalizedCoords(0, 0, size);
