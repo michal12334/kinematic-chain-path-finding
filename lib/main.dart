@@ -77,6 +77,10 @@ class Scene extends StatelessWidget {
           _appState
             ..setX(x)
             ..setY(y);
+        } else if (event.buttons == kSecondaryMouseButton) {
+          _appState
+            ..setEndX(x)
+            ..setEndY(y);
         }
       },
       child: Observer(
@@ -87,6 +91,12 @@ class Scene extends StatelessWidget {
               l2: _appState.l2,
               x: _appState.x,
               y: _appState.y,
+            ),
+            endRobot: Robot(
+              l1: _appState.l1,
+              l2: _appState.l2,
+              x: _appState.endX,
+              y: _appState.endY,
             ),
           ),
         ),

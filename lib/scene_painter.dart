@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:kinematic_chain_path_finding/robot.dart';
 
 class ScenePainter extends CustomPainter {
-  ScenePainter({super.repaint, required Robot robot}) : _robot = robot;
+  ScenePainter({super.repaint, required Robot robot, required Robot endRobot})
+      : _robot = robot,
+        _endRobot = endRobot;
 
   final Robot _robot;
+  final Robot _endRobot;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -26,6 +29,27 @@ class ScenePainter extends CustomPainter {
         _robot.x,
         _robot.y,
         Colors.blue.shade300,
+      );
+    }
+
+    if (_endRobot.x1 != null) {
+      _drawRobot(
+        canvas,
+        size,
+        _endRobot.x1!,
+        _endRobot.y1!,
+        _endRobot.x,
+        _endRobot.y,
+        Colors.white54,
+      );
+      _drawRobot(
+        canvas,
+        size,
+        _endRobot.x2!,
+        _endRobot.y2!,
+        _endRobot.x,
+        _endRobot.y,
+        Colors.white54,
       );
     }
   }

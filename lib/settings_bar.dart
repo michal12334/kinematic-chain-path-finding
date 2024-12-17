@@ -56,6 +56,23 @@ class _SettingsBarState extends State<SettingsBar> {
               min: -1,
             ),
           ),
+          const HeaderText('End position'),
+          Observer(
+            builder: (_) => DragValue(
+              text: 'x',
+              value: appState.endX,
+              onChanged: appState.setEndX,
+              min: -1,
+            ),
+          ),
+          Observer(
+            builder: (_) => DragValue(
+              text: 'y',
+              value: appState.endY,
+              onChanged: appState.setEndY,
+              min: -1,
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(

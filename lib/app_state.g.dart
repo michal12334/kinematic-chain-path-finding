@@ -69,6 +69,36 @@ mixin _$AppState on AppStateBase, Store {
     });
   }
 
+  late final _$endXAtom = Atom(name: 'AppStateBase.endX', context: context);
+
+  @override
+  double get endX {
+    _$endXAtom.reportRead();
+    return super.endX;
+  }
+
+  @override
+  set endX(double value) {
+    _$endXAtom.reportWrite(value, super.endX, () {
+      super.endX = value;
+    });
+  }
+
+  late final _$endYAtom = Atom(name: 'AppStateBase.endY', context: context);
+
+  @override
+  double get endY {
+    _$endYAtom.reportRead();
+    return super.endY;
+  }
+
+  @override
+  set endY(double value) {
+    _$endYAtom.reportWrite(value, super.endY, () {
+      super.endY = value;
+    });
+  }
+
   late final _$AppStateBaseActionController =
       ActionController(name: 'AppStateBase', context: context);
 
@@ -117,12 +147,36 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void setEndX(double x) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.setEndX');
+    try {
+      return super.setEndX(x);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setEndY(double y) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.setEndY');
+    try {
+      return super.setEndY(y);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 l1: ${l1},
 l2: ${l2},
 x: ${x},
-y: ${y}
+y: ${y},
+endX: ${endX},
+endY: ${endY}
     ''';
   }
 }
