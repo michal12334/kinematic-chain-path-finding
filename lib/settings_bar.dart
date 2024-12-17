@@ -45,6 +45,7 @@ class _SettingsBarState extends State<SettingsBar> {
               text: 'x',
               value: appState.x,
               onChanged: appState.setX,
+              min: -1,
             ),
           ),
           Observer(
@@ -52,6 +53,7 @@ class _SettingsBarState extends State<SettingsBar> {
               text: 'y',
               value: appState.y,
               onChanged: appState.setY,
+              min: -1,
             ),
           ),
         ],
