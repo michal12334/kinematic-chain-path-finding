@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
+import 'package:kinematic_chain_path_finding/robot.dart';
 import 'package:kinematic_chain_path_finding/settings_bar.dart';
 
 void main() {
@@ -112,36 +111,4 @@ class MyPainter extends CustomPainter {
     final ry = (-y + 1) / 2 * size.height;
     return (rx, ry);
   }
-}
-
-class Robot {
-  Robot({
-    required this.l1,
-    required this.l2,
-    required this.x,
-    required this.y,
-  }) {
-    if (x * x + y * y > (l1 + l2) * (l1 + l2)) {
-      x1 = y1 = x2 = y2 = null;
-      return;
-    }
-    if (y == 0) {
-      x1 = x2 = (l1 * l1 - l2 * l2 + x * x) / (2 * x);
-      y1 = sqrt(l1 * l1 - pow(l1 * l1 - l2 * l2 + x * x, 2) / (4 * x * x));
-      y2 = -y1!;
-    } else {
-      // x1 = 1 / (2 * (x*x + y*y)) * (-sqrt())
-      x1 = y1 = x2 = y2 = null;
-    }
-  }
-
-  final double l1;
-  final double l2;
-  final double x;
-  final double y;
-
-  late final double? x1;
-  late final double? y1;
-  late final double? x2;
-  late final double? y2;
 }
