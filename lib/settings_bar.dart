@@ -22,7 +22,7 @@ class _SettingsBarState extends State<SettingsBar> {
     return Scaffold(
       body: switch (currentPageIndex) {
         0 => RobotParameters(appState: appState),
-        1 => const PathFinding(),
+        1 => PathFinding(appState: appState),
         _ => throw Exception(),
       },
       bottomNavigationBar: NavigationBar(

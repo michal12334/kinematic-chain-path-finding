@@ -3,6 +3,18 @@
 part of 'app_state.dart';
 
 // **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+AppStateData _$AppStateDataFromJson(Map<String, dynamic> json) =>
+    AppStateData()..x = (json['x'] as num).toDouble();
+
+Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
+    <String, dynamic>{
+      'x': instance.x,
+    };
+
+// **************************************************************************
 // StoreGenerator
 // **************************************************************************
 
@@ -99,6 +111,46 @@ mixin _$AppState on AppStateBase, Store {
     });
   }
 
+  late final _$floodFillIsBeingComputedAtom =
+      Atom(name: 'AppStateBase.floodFillIsBeingComputed', context: context);
+
+  @override
+  bool get floodFillIsBeingComputed {
+    _$floodFillIsBeingComputedAtom.reportRead();
+    return super.floodFillIsBeingComputed;
+  }
+
+  @override
+  set floodFillIsBeingComputed(bool value) {
+    _$floodFillIsBeingComputedAtom
+        .reportWrite(value, super.floodFillIsBeingComputed, () {
+      super.floodFillIsBeingComputed = value;
+    });
+  }
+
+  late final _$imageAtom = Atom(name: 'AppStateBase.image', context: context);
+
+  @override
+  ui.Image? get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(ui.Image? value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
+  late final _$computeFloodFillAsyncAction =
+      AsyncAction('AppStateBase.computeFloodFill', context: context);
+
+  @override
+  Future<void> computeFloodFill() {
+    return _$computeFloodFillAsyncAction.run(() => super.computeFloodFill());
+  }
+
   late final _$AppStateBaseActionController =
       ActionController(name: 'AppStateBase', context: context);
 
@@ -176,7 +228,9 @@ l2: ${l2},
 x: ${x},
 y: ${y},
 endX: ${endX},
-endY: ${endY}
+endY: ${endY},
+floodFillIsBeingComputed: ${floodFillIsBeingComputed},
+image: ${image}
     ''';
   }
 }
