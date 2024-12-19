@@ -19,16 +19,7 @@ class ScenePainter extends CustomPainter {
         _robot.y1!,
         _robot.x,
         _robot.y,
-        Colors.green.shade300,
-      );
-      _drawRobot(
-        canvas,
-        size,
-        _robot.x2!,
-        _robot.y2!,
-        _robot.x,
-        _robot.y,
-        Colors.blue.shade300,
+        Colors.white,
       );
     }
 
@@ -38,15 +29,6 @@ class ScenePainter extends CustomPainter {
         size,
         _endRobot.x1!,
         _endRobot.y1!,
-        _endRobot.x,
-        _endRobot.y,
-        Colors.white54,
-      );
-      _drawRobot(
-        canvas,
-        size,
-        _endRobot.x2!,
-        _endRobot.y2!,
         _endRobot.x,
         _endRobot.y,
         Colors.white54,
