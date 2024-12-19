@@ -3,18 +3,6 @@
 part of 'app_state.dart';
 
 // **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-AppStateData _$AppStateDataFromJson(Map<String, dynamic> json) =>
-    AppStateData()..x = (json['x'] as num).toDouble();
-
-Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
-    <String, dynamic>{
-      'x': instance.x,
-    };
-
-// **************************************************************************
 // StoreGenerator
 // **************************************************************************
 
@@ -81,6 +69,22 @@ mixin _$AppState on AppStateBase, Store {
     });
   }
 
+  late final _$positionTypeAtom =
+      Atom(name: 'AppStateBase.positionType', context: context);
+
+  @override
+  RobotPositionType get positionType {
+    _$positionTypeAtom.reportRead();
+    return super.positionType;
+  }
+
+  @override
+  set positionType(RobotPositionType value) {
+    _$positionTypeAtom.reportWrite(value, super.positionType, () {
+      super.positionType = value;
+    });
+  }
+
   late final _$endXAtom = Atom(name: 'AppStateBase.endX', context: context);
 
   @override
@@ -108,6 +112,22 @@ mixin _$AppState on AppStateBase, Store {
   set endY(double value) {
     _$endYAtom.reportWrite(value, super.endY, () {
       super.endY = value;
+    });
+  }
+
+  late final _$endPositionTypeAtom =
+      Atom(name: 'AppStateBase.endPositionType', context: context);
+
+  @override
+  RobotPositionType get endPositionType {
+    _$endPositionTypeAtom.reportRead();
+    return super.endPositionType;
+  }
+
+  @override
+  set endPositionType(RobotPositionType value) {
+    _$endPositionTypeAtom.reportWrite(value, super.endPositionType, () {
+      super.endPositionType = value;
     });
   }
 
@@ -199,6 +219,17 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void setPositionType(RobotPositionType positionType) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.setPositionType');
+    try {
+      return super.setPositionType(positionType);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setEndX(double x) {
     final _$actionInfo = _$AppStateBaseActionController.startAction(
         name: 'AppStateBase.setEndX');
@@ -221,14 +252,27 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void setEndPositionType(RobotPositionType positionType) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.setEndPositionType');
+    try {
+      return super.setEndPositionType(positionType);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 l1: ${l1},
 l2: ${l2},
 x: ${x},
 y: ${y},
+positionType: ${positionType},
 endX: ${endX},
 endY: ${endY},
+endPositionType: ${endPositionType},
 floodFillIsBeingComputed: ${floodFillIsBeingComputed},
 image: ${image}
     ''';

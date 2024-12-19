@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:kinematic_chain_path_finding/compute_path_finding.dart';
 import 'package:mobx/mobx.dart';
 
 part 'app_state.g.dart';
@@ -18,11 +18,15 @@ abstract class AppStateBase with Store {
   double x = 0.5;
   @observable
   double y = 0;
+  @observable
+  RobotPositionType positionType = RobotPositionType.basic;
 
   @observable
   double endX = -0.5;
   @observable
   double endY = 0;
+  @observable
+  RobotPositionType endPositionType = RobotPositionType.basic;
 
   @observable
   bool floodFillIsBeingComputed = false;
@@ -50,6 +54,11 @@ abstract class AppStateBase with Store {
   }
 
   @action
+  void setPositionType(RobotPositionType positionType) {
+    this.positionType = positionType;
+  }
+
+  @action
   void setEndX(double x) {
     endX = x;
   }
@@ -60,16 +69,31 @@ abstract class AppStateBase with Store {
   }
 
   @action
+  void setEndPositionType(RobotPositionType positionType) {
+    endPositionType = positionType;
+  }
+
+  @action
   Future<void> computeFloodFill() async {
     if (floodFillIsBeingComputed) {
       return;
     }
 
     floodFillIsBeingComputed = true;
-    final pixels = await compute(_computeFloodFill, AppStateData());
+    final pfResult = await compute(
+      computePathFinding,
+      AppStateData(
+        l1,
+        l2,
+        x,
+        y,
+        endX,
+        endY,
+      ),
+    );
     final completer = Completer<ui.Image>();
     ui.decodeImageFromPixels(
-      pixels,
+      Uint8List.fromList(pfResult.pixels),
       360,
       360,
       ui.PixelFormat.rgba8888,
@@ -80,26 +104,7 @@ abstract class AppStateBase with Store {
   }
 }
 
-Uint8List _computeFloodFill(AppStateData c) {
-  final result = Uint8List(360 * 360 * 4);
-  for (var i = 0; i < result.length; i++) {
-    if (i % 4 == 3) {
-      result[i] = 255;
-    } else {
-      result[i] = i % 255;
-    }
-  }
-  return result;
-}
-
-@JsonSerializable()
-class AppStateData {
-  AppStateData();
-
-  factory AppStateData.fromJson(Map<String, dynamic> json) =>
-      _$AppStateDataFromJson(json);
-
-  double x = 0.5;
-
-  Map<String, dynamic> toJson() => _$AppStateDataToJson(this);
+enum RobotPositionType {
+  basic,
+  alternative,
 }
