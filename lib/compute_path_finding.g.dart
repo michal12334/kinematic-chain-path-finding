@@ -28,9 +28,30 @@ Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
 PathFindingResult _$PathFindingResultFromJson(Map<String, dynamic> json) =>
     PathFindingResult(
       (json['pixels'] as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+      (json['path'] as List<dynamic>?)
+          ?.map((e) => _$recordConvert(
+                e,
+                ($jsonValue) => (
+                  ($jsonValue[r'$1'] as num).toInt(),
+                  ($jsonValue[r'$2'] as num).toInt(),
+                ),
+              ))
+          .toList(),
     );
 
 Map<String, dynamic> _$PathFindingResultToJson(PathFindingResult instance) =>
     <String, dynamic>{
       'pixels': instance.pixels,
+      'path': instance.path
+          ?.map((e) => <String, dynamic>{
+                r'$1': e.$1,
+                r'$2': e.$2,
+              })
+          .toList(),
     };
+
+$Rec _$recordConvert<$Rec>(
+  Object? value,
+  $Rec Function(Map) convert,
+) =>
+    convert(value as Map<String, dynamic>);

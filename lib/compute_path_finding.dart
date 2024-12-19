@@ -28,12 +28,13 @@ class AppStateData {
 
 @JsonSerializable()
 class PathFindingResult {
-  PathFindingResult(this.pixels);
+  PathFindingResult(this.pixels, this.path);
 
   factory PathFindingResult.fromJson(Map<String, dynamic> json) =>
       _$PathFindingResultFromJson(json);
 
   final List<int> pixels;
+  final List<(int, int)>? path;
 
   Map<String, dynamic> toJson() => _$PathFindingResultToJson(this);
 }
@@ -53,14 +54,39 @@ PathFindingResult computePathFinding(AppStateData appState) {
     y: appState.endY,
   );
 
-  final startA1 =
-      normalizedDegree(radianToDegree(atan2(startRobot.y1!, startRobot.x1!)));
-  final startA2 =
-      normalizedDegree(radianToDegree(atan2(startRobot.y, startRobot.x)));
+  final startA1 = normalizedDegree(
+    radianToDegree(
+      atan2(
+        startRobot.y1!,
+        startRobot.x1!,
+      ),
+    ),
+  );
+  final startA2 = normalizedDegree(
+    radianToDegree(
+      atan2(
+        startRobot.y - startRobot.y1!,
+        startRobot.x - startRobot.x1!,
+      ),
+    ),
+  );
 
-  final endA1 =
-      normalizedDegree(radianToDegree(atan2(endRobot.y1!, endRobot.x1!)));
-  final endA2 = normalizedDegree(radianToDegree(atan2(endRobot.y, endRobot.x)));
+  final endA1 = normalizedDegree(
+    radianToDegree(
+      atan2(
+        endRobot.y1!,
+        endRobot.x1!,
+      ),
+    ),
+  );
+  final endA2 = normalizedDegree(
+    radianToDegree(
+      atan2(
+        endRobot.y - endRobot.y1!,
+        endRobot.x - endRobot.x1!,
+      ),
+    ),
+  );
 
   final distance = List<List<int>>.generate(
     360,
@@ -95,6 +121,29 @@ PathFindingResult computePathFinding(AppStateData appState) {
     }
   }
 
+  var fd = distance[endA1][endA2];
+  final path = List<(int, int)>.empty(growable: true)..add((endA1, endA2));
+  var current = (endA1, endA2);
+  while (fd > 0) {
+    final neighbours = [
+      (normalizedDegree(current.$1 - 1), normalizedDegree(current.$2)),
+      (normalizedDegree(current.$1 + 1), normalizedDegree(current.$2)),
+      (normalizedDegree(current.$1), normalizedDegree(current.$2 - 1)),
+      (normalizedDegree(current.$1), normalizedDegree(current.$2 + 1)),
+    ];
+
+    for (final n in neighbours) {
+      if (distance[n.$1][n.$2] == fd - 1) {
+        path.add(n);
+        fd = fd - 1;
+        current = n;
+        break;
+      }
+    }
+  }
+
+  path.add((startA1, startA2));
+
   final pixels = Uint8List(360 * 360 * 4);
   for (var i = 0; i < pixels.length; i++) {
     if (i % 4 == 3) {
@@ -107,7 +156,7 @@ PathFindingResult computePathFinding(AppStateData appState) {
       pixels[i] = 0;
     }
   }
-  return PathFindingResult(pixels);
+  return PathFindingResult(pixels, path);
 }
 
 int radianToDegree(double r) {
