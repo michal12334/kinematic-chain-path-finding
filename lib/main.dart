@@ -86,13 +86,13 @@ class Scene extends StatelessWidget {
       child: Observer(
         builder: (_) => CustomPaint(
           painter: ScenePainter(
-            robot: Robot(
+            robot: Robot.fromInverse(
               l1: _appState.l1,
               l2: _appState.l2,
               x: _appState.x,
               y: _appState.y,
             ),
-            endRobot: Robot(
+            endRobot: Robot.fromInverse(
               l1: _appState.l1,
               l2: _appState.l2,
               x: _appState.endX,

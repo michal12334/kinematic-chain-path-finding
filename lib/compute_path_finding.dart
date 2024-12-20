@@ -40,14 +40,14 @@ class PathFindingResult {
 }
 
 PathFindingResult computePathFinding(AppStateData appState) {
-  final startRobot = Robot(
+  final startRobot = Robot.fromInverse(
     l1: appState.l1,
     l2: appState.l2,
     x: appState.x,
     y: appState.y,
   );
 
-  final endRobot = Robot(
+  final endRobot = Robot.fromInverse(
     l1: appState.l1,
     l2: appState.l2,
     x: appState.endX,
