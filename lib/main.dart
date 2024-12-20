@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
-import 'package:kinematic_chain_path_finding/robot.dart';
 import 'package:kinematic_chain_path_finding/scene_painter.dart';
 import 'package:kinematic_chain_path_finding/settings_bar.dart';
 
@@ -86,18 +85,8 @@ class Scene extends StatelessWidget {
       child: Observer(
         builder: (_) => CustomPaint(
           painter: ScenePainter(
-            robot: Robot.fromInverse(
-              l1: _appState.l1,
-              l2: _appState.l2,
-              x: _appState.x,
-              y: _appState.y,
-            ),
-            endRobot: Robot.fromInverse(
-              l1: _appState.l1,
-              l2: _appState.l2,
-              x: _appState.endX,
-              y: _appState.endY,
-            ),
+            robot: _appState.startRobot,
+            endRobot: _appState.endRobot,
           ),
         ),
       ),

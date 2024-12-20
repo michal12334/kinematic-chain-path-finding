@@ -5,13 +5,39 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
 import 'package:kinematic_chain_path_finding/header_text.dart';
 
-class PathFinding extends StatelessWidget {
+class PathFinding extends StatefulWidget {
   const PathFinding({
     super.key,
     required AppState appState,
   }) : _appState = appState;
 
   final AppState _appState;
+
+  @override
+  State<PathFinding> createState() => _PathFindingState();
+}
+
+class _PathFindingState extends State<PathFinding>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  int _durationInSeconds = 2;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: Duration.zero,
+      vsync: this,
+    );
+
+    _animation = Tween<double>(begin: 1, end: 0).animate(_controller)
+      ..addListener(() {
+        widget._appState.updateAnimation(_animation.value);
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +48,7 @@ class PathFinding extends StatelessWidget {
           height: 10,
         ),
         FilledButton.tonal(
-          onPressed: _appState.computeFloodFill,
+          onPressed: widget._appState.computeFloodFill,
           child: const Text('Compute'),
         ),
         Center(
@@ -30,16 +56,25 @@ class PathFinding extends StatelessWidget {
             width: 360,
             height: 360,
             child: Observer(
-              builder: (_) => _appState.floodFillIsBeingComputed
+              builder: (_) => widget._appState.floodFillIsBeingComputed
                   ? const CircularProgressIndicator()
-                  : _appState.image != null
+                  : widget._appState.image != null
                       ? CustomPaint(
-                          painter: TextureCanvasPainter(_appState.image!),
+                          painter:
+                              TextureCanvasPainter(widget._appState.image!),
                           size: const Size(360, 360),
                         )
                       : Container(),
             ),
           ),
+        ),
+        FilledButton.tonal(
+          onPressed: () {
+            _controller
+              ..duration = Duration(seconds: _durationInSeconds)
+              ..forward(from: 0);
+          },
+          child: const Text('Run'),
         ),
       ],
     );

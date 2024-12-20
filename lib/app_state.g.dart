@@ -163,6 +163,38 @@ mixin _$AppState on AppStateBase, Store {
     });
   }
 
+  late final _$startRobotAtom =
+      Atom(name: 'AppStateBase.startRobot', context: context);
+
+  @override
+  Robot get startRobot {
+    _$startRobotAtom.reportRead();
+    return super.startRobot;
+  }
+
+  @override
+  set startRobot(Robot value) {
+    _$startRobotAtom.reportWrite(value, super.startRobot, () {
+      super.startRobot = value;
+    });
+  }
+
+  late final _$endRobotAtom =
+      Atom(name: 'AppStateBase.endRobot', context: context);
+
+  @override
+  Robot get endRobot {
+    _$endRobotAtom.reportRead();
+    return super.endRobot;
+  }
+
+  @override
+  set endRobot(Robot value) {
+    _$endRobotAtom.reportWrite(value, super.endRobot, () {
+      super.endRobot = value;
+    });
+  }
+
   late final _$computeFloodFillAsyncAction =
       AsyncAction('AppStateBase.computeFloodFill', context: context);
 
@@ -263,6 +295,17 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void updateAnimation(double v) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.updateAnimation');
+    try {
+      return super.updateAnimation(v);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 l1: ${l1},
@@ -274,7 +317,9 @@ endX: ${endX},
 endY: ${endY},
 endPositionType: ${endPositionType},
 floodFillIsBeingComputed: ${floodFillIsBeingComputed},
-image: ${image}
+image: ${image},
+startRobot: ${startRobot},
+endRobot: ${endRobot}
     ''';
   }
 }
