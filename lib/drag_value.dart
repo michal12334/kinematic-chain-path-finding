@@ -8,6 +8,7 @@ class DragValue extends StatelessWidget {
     required this.onChanged,
     this.min = 0.0,
     this.max = 1.0,
+    this.divisions,
   });
 
   final String text;
@@ -15,6 +16,7 @@ class DragValue extends StatelessWidget {
   final void Function(double) onChanged;
   final double min;
   final double max;
+  final int? divisions;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class DragValue extends StatelessWidget {
           min: min,
           max: max,
           onChanged: onChanged,
+          divisions: divisions,
         ),
         Text(value.toStringAsFixed(2)),
       ],

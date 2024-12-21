@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
+import 'package:kinematic_chain_path_finding/drag_value.dart';
 import 'package:kinematic_chain_path_finding/header_text.dart';
 
 class PathFinding extends StatefulWidget {
@@ -22,7 +23,7 @@ class _PathFindingState extends State<PathFinding>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  int _durationInSeconds = 2;
+  double _durationInSeconds = 2;
 
   @override
   void initState() {
@@ -71,10 +72,22 @@ class _PathFindingState extends State<PathFinding>
         FilledButton.tonal(
           onPressed: () {
             _controller
-              ..duration = Duration(seconds: _durationInSeconds)
+              ..duration = Duration(seconds: _durationInSeconds.toInt())
               ..forward(from: 0);
           },
           child: const Text('Run'),
+        ),
+        DragValue(
+          text: 'duration',
+          value: _durationInSeconds,
+          max: 30,
+          min: 1,
+          divisions: 29,
+          onChanged: (v) {
+            setState(() {
+              _durationInSeconds = v;
+            });
+          },
         ),
       ],
     );

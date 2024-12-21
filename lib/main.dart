@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Row(
       children: [
         SizedBox(
-          width: 270,
+          width: 300,
           child: SettingsBar(
             appState: _appState,
           ),
