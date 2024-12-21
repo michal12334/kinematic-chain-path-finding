@@ -77,6 +77,20 @@ class _PathFindingState extends State<PathFinding>
             ),
           ),
         ),
+        Observer(
+          builder: (_) => !widget._appState.floodFillIsBeingComputed &&
+                  widget._appState.path == null
+              ? const Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Center(
+                    child: SizedBox(
+                      width: 100,
+                      child: Text('No path found'),
+                    ),
+                  ),
+                )
+              : Container(),
+        ),
         Padding(
           padding: const EdgeInsets.all(10),
           child: Center(

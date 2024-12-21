@@ -73,6 +73,18 @@ PathFindingResult computePathFinding(AppStateData appState) {
     positionType: appState.endPositionType,
   );
 
+  if (startRobot.x1 == null || endRobot.x1 == null) {
+    final pixels = Uint8List(360 * 360 * 4);
+    for (var i = 0; i < pixels.length; i++) {
+      if (i % 4 == 3) {
+        pixels[i] = 255;
+      } else {
+        pixels[i] = 0;
+      }
+    }
+    return PathFindingResult(pixels, null);
+  }
+
   final startA1 = normalizedDegree(
     radianToDegree(
       atan2(
@@ -156,28 +168,7 @@ PathFindingResult computePathFinding(AppStateData appState) {
     }
   }
 
-  var fd = distance[endA1][endA2];
-  final path = List<(int, int)>.empty(growable: true)..add((endA1, endA2));
-  var current = (endA1, endA2);
-  while (fd > 0) {
-    final neighbours = [
-      (normalizedDegree(current.$1 - 1), normalizedDegree(current.$2)),
-      (normalizedDegree(current.$1 + 1), normalizedDegree(current.$2)),
-      (normalizedDegree(current.$1), normalizedDegree(current.$2 - 1)),
-      (normalizedDegree(current.$1), normalizedDegree(current.$2 + 1)),
-    ];
-
-    for (final n in neighbours) {
-      if (distance[n.$1][n.$2] == fd - 1) {
-        path.add(n);
-        fd = fd - 1;
-        current = n;
-        break;
-      }
-    }
-  }
-
-  path.add((startA1, startA2));
+  final path = getPath(distance, endA1, endA2, startA1, startA2);
 
   final pixels = Uint8List(360 * 360 * 4);
   for (var i = 0; i < pixels.length; i++) {
@@ -200,6 +191,44 @@ PathFindingResult computePathFinding(AppStateData appState) {
     }
   }
   return PathFindingResult(pixels, path);
+}
+
+List<(int, int)>? getPath(
+  List<List<int>> distance,
+  int endA1,
+  int endA2,
+  int startA1,
+  int startA2,
+) {
+  var fd = distance[endA1][endA2];
+
+  if (fd < 1) {
+    return null;
+  }
+
+  final path = List<(int, int)>.empty(growable: true)..add((endA1, endA2));
+  var current = (endA1, endA2);
+  while (fd > 0) {
+    final neighbours = [
+      (normalizedDegree(current.$1 - 1), normalizedDegree(current.$2)),
+      (normalizedDegree(current.$1 + 1), normalizedDegree(current.$2)),
+      (normalizedDegree(current.$1), normalizedDegree(current.$2 - 1)),
+      (normalizedDegree(current.$1), normalizedDegree(current.$2 + 1)),
+    ];
+
+    for (final n in neighbours) {
+      if (distance[n.$1][n.$2] == fd - 1) {
+        path.add(n);
+        fd = fd - 1;
+        current = n;
+        break;
+      }
+    }
+  }
+
+  path.add((startA1, startA2));
+
+  return path;
 }
 
 int radianToDegree(double r) {
