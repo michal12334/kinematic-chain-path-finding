@@ -114,15 +114,20 @@ class Robot {
       x1 = x2 = y1 = y2 = null;
     }
 
+    if (positionType == RobotPositionType.alternative) {
+      x1 = x2;
+      y1 = y2;
+    }
+
+    if (y < 0) {
+      x1 = x2;
+      y1 = y2;
+    }
+
     for (final o in obstacles) {
       if (x1 != null && (_hit(o, 0, 0, x1, y1!) || _hit(o, x1, y1, x, y))) {
         x1 = y1 = null;
       }
-    }
-
-    if (positionType == RobotPositionType.alternative) {
-      x1 = x2;
-      y1 = y2;
     }
 
     return Robot(l1: l1, l2: l2, x: x, y: y, x1: x1, y1: y1);
