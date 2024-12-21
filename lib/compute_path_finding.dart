@@ -180,7 +180,13 @@ PathFindingResult computePathFinding(AppStateData appState) {
     if (i % 4 == 3) {
       pixels[i] = 255;
     } else if (i % 4 == 1 && distance[a][b] != -1 && visited[a][b]) {
-      pixels[i] = (((distance[a][b] / 360) * (-1) + 1) * 255).toInt();
+      pixels[i] = (clampDouble(
+                (distance[a][b] / 720) * (-1) + 1,
+                0,
+                1,
+              ) *
+              255)
+          .toInt();
     } else if (i % 4 == 0 && distance[a][b] == -1) {
       pixels[i] = 255;
     } else {
