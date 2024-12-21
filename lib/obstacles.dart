@@ -20,7 +20,17 @@ class Obstacles extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 10, top: 4),
           child: Column(
             children: [
-              HeaderText('Obstacle $index'),
+              Row(
+                children: [
+                  Expanded(child: HeaderText('Obstacle $index')),
+                  FilledButton.tonal(
+                    onPressed: () {
+                      appState.deleteObstacle(index);
+                    },
+                    child: const Icon(Icons.delete),
+                  ),
+                ],
+              ),
               DragValue(
                 text: 'x0',
                 value: appState.obstacles[index].startX,

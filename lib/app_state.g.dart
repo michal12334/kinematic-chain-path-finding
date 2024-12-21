@@ -351,6 +351,17 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void deleteObstacle(int index) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.deleteObstacle');
+    try {
+      return super.deleteObstacle(index);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void updateObstacleStartX(int index, double x) {
     final _$actionInfo = _$AppStateBaseActionController.startAction(
         name: 'AppStateBase.updateObstacleStartX');

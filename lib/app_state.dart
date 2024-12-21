@@ -256,6 +256,12 @@ abstract class AppStateBase with Store {
   }
 
   @action
+  void deleteObstacle(int index) {
+    obstacles.removeAt(index);
+    obstacles = [...obstacles];
+  }
+
+  @action
   void updateObstacleStartX(int index, double x) {
     obstacles[index].startX = x;
     obstacles = [...obstacles];
