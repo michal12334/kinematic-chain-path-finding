@@ -228,6 +228,9 @@ abstract class AppStateBase with Store {
       path![index].$2.toDouble() * 2 * 3.14 / 360,
       obstacles,
     );
+
+    x = startRobot.x;
+    y = startRobot.y;
   }
 
   @action
