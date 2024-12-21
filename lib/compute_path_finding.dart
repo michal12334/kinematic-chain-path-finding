@@ -111,6 +111,22 @@ PathFindingResult computePathFinding(AppStateData appState) {
     (_) => List.generate(360, (_) => false),
   );
 
+  for (var i = 0; i < 360; i++) {
+    for (var j = 0; j < 360; j++) {
+      final testRobot = Robot.fromAngles(
+        appState.l1,
+        appState.l2,
+        i * 2 * 3.14 / 360,
+        j * 2 * 3.14 / 360,
+        appState.obstacles,
+      );
+
+      if (testRobot.x1 == null) {
+        distance[i][j] = -1;
+        visited[i][j] = true;
+      }
+    }
+  }
   distance[startA1][startA2] = 0;
   visited[startA1][startA2] = true;
   final q = Queue<(int, int)>()..add((startA1, startA2));
@@ -159,12 +175,14 @@ PathFindingResult computePathFinding(AppStateData appState) {
 
   final pixels = Uint8List(360 * 360 * 4);
   for (var i = 0; i < pixels.length; i++) {
+    final a = i ~/ 4 ~/ 360;
+    final b = (i ~/ 4) % 360;
     if (i % 4 == 3) {
       pixels[i] = 255;
-    } else if (i % 4 == 1) {
-      final a = i ~/ 4 ~/ 360;
-      final b = (i ~/ 4) % 360;
+    } else if (i % 4 == 1 && distance[a][b] != -1 && visited[a][b]) {
       pixels[i] = (((distance[a][b] / 360) * (-1) + 1) * 255).toInt();
+    } else if (i % 4 == 0 && distance[a][b] == -1) {
+      pixels[i] = 255;
     } else {
       pixels[i] = 0;
     }
