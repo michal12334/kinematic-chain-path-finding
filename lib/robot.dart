@@ -114,12 +114,8 @@ class Robot {
       x1 = x2 = y1 = y2 = null;
     }
 
-    if (positionType == RobotPositionType.alternative) {
-      x1 = x2;
-      y1 = y2;
-    }
-
-    if (y < 0) {
+    if ((positionType == RobotPositionType.alternative && y >= 0) ||
+        (positionType == RobotPositionType.basic && y < 0)) {
       x1 = x2;
       y1 = y2;
     }
