@@ -23,6 +23,7 @@ class RobotParameters extends StatelessWidget {
             value: appState.l1,
             onChanged: appState.setL1,
             min: 0.1,
+            width: 270,
           ),
         ),
         Observer(
@@ -31,6 +32,7 @@ class RobotParameters extends StatelessWidget {
             value: appState.l2,
             onChanged: appState.setL2,
             min: 0.1,
+            width: 270,
           ),
         ),
         const HeaderText('Start position'),
@@ -40,6 +42,7 @@ class RobotParameters extends StatelessWidget {
             value: appState.x,
             onChanged: appState.setX,
             min: -1,
+            width: 270,
           ),
         ),
         Observer(
@@ -48,6 +51,7 @@ class RobotParameters extends StatelessWidget {
             value: appState.y,
             onChanged: appState.setY,
             min: -1,
+            width: 270,
           ),
         ),
         const HeaderText('End position'),
@@ -57,6 +61,7 @@ class RobotParameters extends StatelessWidget {
             value: appState.endX,
             onChanged: appState.setEndX,
             min: -1,
+            width: 270,
           ),
         ),
         Observer(
@@ -65,6 +70,7 @@ class RobotParameters extends StatelessWidget {
             value: appState.endY,
             onChanged: appState.setEndY,
             min: -1,
+            width: 270,
           ),
         ),
       ],

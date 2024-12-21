@@ -48,9 +48,17 @@ class _PathFindingState extends State<PathFinding>
         const SizedBox(
           height: 10,
         ),
-        FilledButton.tonal(
-          onPressed: widget._appState.computeFloodFill,
-          child: const Text('Compute'),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Center(
+            child: SizedBox(
+              width: 200,
+              child: FilledButton.tonal(
+                onPressed: widget._appState.computeFloodFill,
+                child: const Text('Compute'),
+              ),
+            ),
+          ),
         ),
         Center(
           child: SizedBox(
@@ -69,13 +77,21 @@ class _PathFindingState extends State<PathFinding>
             ),
           ),
         ),
-        FilledButton.tonal(
-          onPressed: () {
-            _controller
-              ..duration = Duration(seconds: _durationInSeconds.toInt())
-              ..forward(from: 0);
-          },
-          child: const Text('Run'),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Center(
+            child: SizedBox(
+              width: 200,
+              child: FilledButton.tonal(
+                onPressed: () {
+                  _controller
+                    ..duration = Duration(seconds: _durationInSeconds.toInt())
+                    ..forward(from: 0);
+                },
+                child: const Text('Run'),
+              ),
+            ),
+          ),
         ),
         DragValue(
           text: 'duration',
@@ -83,6 +99,7 @@ class _PathFindingState extends State<PathFinding>
           max: 30,
           min: 1,
           divisions: 29,
+          width: 300,
           onChanged: (v) {
             setState(() {
               _durationInSeconds = v;

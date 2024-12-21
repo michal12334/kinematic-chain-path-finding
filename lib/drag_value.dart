@@ -9,6 +9,7 @@ class DragValue extends StatelessWidget {
     this.min = 0.0,
     this.max = 1.0,
     this.divisions,
+    this.width,
   });
 
   final String text;
@@ -17,24 +18,32 @@ class DragValue extends StatelessWidget {
   final double min;
   final double max;
   final int? divisions;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Text(text),
+    return Center(
+      child: SizedBox(
+        width: width,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(text),
+            ),
+            Flexible(
+              child: Slider(
+                value: value,
+                min: min,
+                max: max,
+                onChanged: onChanged,
+                divisions: divisions,
+              ),
+            ),
+            Text(value.toStringAsFixed(2)),
+          ],
         ),
-        Slider(
-          value: value,
-          min: min,
-          max: max,
-          onChanged: onChanged,
-          divisions: divisions,
-        ),
-        Text(value.toStringAsFixed(2)),
-      ],
+      ),
     );
   }
 }
