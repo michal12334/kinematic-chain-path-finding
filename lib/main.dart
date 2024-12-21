@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
 import 'package:kinematic_chain_path_finding/scene_painter.dart';
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Scene extends StatelessWidget {
+class Scene extends StatefulWidget {
   const Scene({
     super.key,
     required AppState appState,
@@ -66,27 +67,79 @@ class Scene extends StatelessWidget {
   final AppState _appState;
 
   @override
-  Widget build(BuildContext context) {
-    return Listener(
-      onPointerDown: (event) {
-        final x = event.localPosition.dx / context.size!.width * 2 - 1;
-        final y = event.localPosition.dy / context.size!.height * (-2) + 1;
+  State<Scene> createState() => _SceneState();
+}
 
-        if (event.buttons == kPrimaryMouseButton) {
-          _appState
-            ..setX(x)
-            ..setY(y);
-        } else if (event.buttons == kSecondaryMouseButton) {
-          _appState
-            ..setEndX(x)
-            ..setEndY(y);
+class _SceneState extends State<Scene> {
+  final FocusNode _focusNode = FocusNode();
+  double _x = 0;
+  double _y = 0;
+
+  double? _cx;
+  double? _cy;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.requestFocus();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      focusNode: _focusNode,
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent &&
+            event.logicalKey == LogicalKeyboardKey.keyC) {
+          setState(() {
+            _cx = _x;
+            _cy = _y;
+          });
+        } else if (event is KeyUpEvent &&
+            event.logicalKey == LogicalKeyboardKey.keyC) {
+          if (_cx != null) {
+            widget._appState.addObstacle(Obstacle(_x, _y, _cx!, _cy!));
+            setState(() {
+              _cx = _cy = null;
+            });
+          }
         }
+
+        return KeyEventResult.handled;
       },
-      child: Observer(
-        builder: (_) => CustomPaint(
-          painter: ScenePainter(
-            robot: _appState.startRobot,
-            endRobot: _appState.endRobot,
+      child: Listener(
+        onPointerDown: (event) {
+          if (event.buttons == kPrimaryMouseButton) {
+            widget._appState
+              ..setX(_x)
+              ..setY(_y);
+          } else if (event.buttons == kSecondaryMouseButton) {
+            widget._appState
+              ..setEndX(_x)
+              ..setEndY(_y);
+          }
+        },
+        onPointerHover: (event) {
+          setState(() {
+            _x = event.localPosition.dx / context.size!.width * 2 - 1;
+            _y = event.localPosition.dy / context.size!.height * (-2) + 1;
+          });
+        },
+        onPointerMove: (event) {
+          setState(() {
+            _x = event.localPosition.dx / context.size!.width * 2 - 1;
+            _y = event.localPosition.dy / context.size!.height * (-2) + 1;
+          });
+        },
+        child: Observer(
+          builder: (_) => CustomPaint(
+            painter: ScenePainter(
+              robot: widget._appState.startRobot,
+              endRobot: widget._appState.endRobot,
+              obstacles: widget._appState.obstacles,
+              additionalObstacle:
+                  _cx == null ? null : Obstacle(_cx!, _cy!, _x, _y),
+            ),
           ),
         ),
       ),

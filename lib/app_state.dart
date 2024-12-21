@@ -41,6 +41,9 @@ abstract class AppStateBase with Store {
 
   List<(int, int)>? path;
 
+  @observable
+  List<Obstacle> obstacles = List.empty(growable: true);
+
   @action
   void setL1(double l1) {
     this.l1 = l1;
@@ -135,9 +138,23 @@ abstract class AppStateBase with Store {
       path![index].$2.toDouble() * 2 * 3.14 / 360,
     );
   }
+
+  @action
+  void addObstacle(Obstacle obstacle) {
+    obstacles.add(obstacle);
+  }
 }
 
 enum RobotPositionType {
   basic,
   alternative,
+}
+
+class Obstacle {
+  Obstacle(this.startX, this.startY, this.endX, this.endY);
+
+  double startX;
+  double startY;
+  double endX;
+  double endY;
 }

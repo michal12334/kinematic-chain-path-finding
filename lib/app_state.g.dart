@@ -195,6 +195,22 @@ mixin _$AppState on AppStateBase, Store {
     });
   }
 
+  late final _$obstaclesAtom =
+      Atom(name: 'AppStateBase.obstacles', context: context);
+
+  @override
+  List<Obstacle> get obstacles {
+    _$obstaclesAtom.reportRead();
+    return super.obstacles;
+  }
+
+  @override
+  set obstacles(List<Obstacle> value) {
+    _$obstaclesAtom.reportWrite(value, super.obstacles, () {
+      super.obstacles = value;
+    });
+  }
+
   late final _$computeFloodFillAsyncAction =
       AsyncAction('AppStateBase.computeFloodFill', context: context);
 
@@ -306,6 +322,17 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void addObstacle(Obstacle obstacle) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.addObstacle');
+    try {
+      return super.addObstacle(obstacle);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 l1: ${l1},
@@ -319,7 +346,8 @@ endPositionType: ${endPositionType},
 floodFillIsBeingComputed: ${floodFillIsBeingComputed},
 image: ${image},
 startRobot: ${startRobot},
-endRobot: ${endRobot}
+endRobot: ${endRobot},
+obstacles: ${obstacles}
     ''';
   }
 }

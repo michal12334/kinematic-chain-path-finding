@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:kinematic_chain_path_finding/app_state.dart';
 import 'package:kinematic_chain_path_finding/robot.dart';
 
 class ScenePainter extends CustomPainter {
-  ScenePainter({super.repaint, required Robot robot, required Robot endRobot})
-      : _robot = robot,
-        _endRobot = endRobot;
+  ScenePainter({
+    super.repaint,
+    required Robot robot,
+    required Robot endRobot,
+    required List<Obstacle> obstacles,
+    required Obstacle? additionalObstacle,
+  })  : _robot = robot,
+        _endRobot = endRobot,
+        _obstacles = obstacles,
+        _additionalObstacle = additionalObstacle;
 
   final Robot _robot;
   final Robot _endRobot;
+  final List<Obstacle> _obstacles;
+  final Obstacle? _additionalObstacle;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -34,6 +44,14 @@ class ScenePainter extends CustomPainter {
         Colors.white54,
       );
     }
+
+    for (final o in _obstacles) {
+      _drawObstacle(canvas, size, o, Colors.red);
+    }
+
+    if (_additionalObstacle != null) {
+      _drawObstacle(canvas, size, _additionalObstacle, Colors.yellow);
+    }
   }
 
   void _drawRobot(
@@ -56,6 +74,23 @@ class ScenePainter extends CustomPainter {
     canvas
       ..drawLine(Offset(c0.$1, c0.$2), Offset(c1.$1, c1.$2), paint)
       ..drawLine(Offset(c1.$1, c1.$2), Offset(c2.$1, c2.$2), paint);
+  }
+
+  void _drawObstacle(
+    Canvas canvas,
+    Size size,
+    Obstacle obstacle,
+    Color color,
+  ) {
+    final paint = Paint()..color = color;
+
+    final c0 = _getNormalizedCoords(obstacle.startX, obstacle.startY, size);
+    final c1 = _getNormalizedCoords(obstacle.endX, obstacle.endY, size);
+
+    canvas.drawRect(
+      Rect.fromPoints(Offset(c0.$1, c0.$2), Offset(c1.$1, c1.$2)),
+      paint,
+    );
   }
 
   @override
