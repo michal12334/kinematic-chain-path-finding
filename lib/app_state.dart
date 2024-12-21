@@ -231,6 +231,7 @@ abstract class AppStateBase with Store {
 
     x = startRobot.x;
     y = startRobot.y;
+    positionType = endPositionType;
   }
 
   @action
