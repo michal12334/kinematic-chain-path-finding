@@ -54,6 +54,29 @@ class RobotParameters extends StatelessWidget {
             width: 270,
           ),
         ),
+        Observer(
+          builder: (_) => Center(
+            child: SizedBox(
+              width: 200,
+              child: Row(
+                children: [
+                  Checkbox(
+                    value:
+                        appState.positionType == RobotPositionType.alternative,
+                    onChanged: (v) {
+                      if (v ?? false) {
+                        appState.setPositionType(RobotPositionType.alternative);
+                      } else {
+                        appState.setPositionType(RobotPositionType.basic);
+                      }
+                    },
+                  ),
+                  const Flexible(child: Text('use alternative position')),
+                ],
+              ),
+            ),
+          ),
+        ),
         const HeaderText('End position'),
         Observer(
           builder: (_) => DragValue(
@@ -71,6 +94,30 @@ class RobotParameters extends StatelessWidget {
             onChanged: appState.setEndY,
             min: -1,
             width: 270,
+          ),
+        ),
+        Observer(
+          builder: (_) => Center(
+            child: SizedBox(
+              width: 200,
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: appState.endPositionType ==
+                        RobotPositionType.alternative,
+                    onChanged: (v) {
+                      if (v ?? false) {
+                        appState
+                            .setEndPositionType(RobotPositionType.alternative);
+                      } else {
+                        appState.setEndPositionType(RobotPositionType.basic);
+                      }
+                    },
+                  ),
+                  const Flexible(child: Text('use alternative position')),
+                ],
+              ),
+            ),
           ),
         ),
       ],

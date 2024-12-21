@@ -16,6 +16,8 @@ AppStateData _$AppStateDataFromJson(Map<String, dynamic> json) => AppStateData(
       (json['obstacles'] as List<dynamic>)
           .map((e) => Obstacle.fromJson(e as Map<String, dynamic>))
           .toList(),
+      $enumDecode(_$RobotPositionTypeEnumMap, json['positionType']),
+      $enumDecode(_$RobotPositionTypeEnumMap, json['endPositionType']),
     );
 
 Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
@@ -24,10 +26,17 @@ Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
       'l2': instance.l2,
       'x': instance.x,
       'y': instance.y,
+      'positionType': _$RobotPositionTypeEnumMap[instance.positionType]!,
       'endX': instance.endX,
       'endY': instance.endY,
+      'endPositionType': _$RobotPositionTypeEnumMap[instance.endPositionType]!,
       'obstacles': instance.obstacles,
     };
+
+const _$RobotPositionTypeEnumMap = {
+  RobotPositionType.basic: 'basic',
+  RobotPositionType.alternative: 'alternative',
+};
 
 PathFindingResult _$PathFindingResultFromJson(Map<String, dynamic> json) =>
     PathFindingResult(

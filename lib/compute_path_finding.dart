@@ -18,6 +18,8 @@ class AppStateData {
     this.endX,
     this.endY,
     this.obstacles,
+    this.positionType,
+    this.endPositionType,
   );
 
   factory AppStateData.fromJson(Map<String, dynamic> json) =>
@@ -28,9 +30,11 @@ class AppStateData {
 
   final double x;
   final double y;
+  final RobotPositionType positionType;
 
   final double endX;
   final double endY;
+  final RobotPositionType endPositionType;
 
   final List<Obstacle> obstacles;
 
@@ -57,6 +61,7 @@ PathFindingResult computePathFinding(AppStateData appState) {
     x: appState.x,
     y: appState.y,
     obstacles: appState.obstacles,
+    positionType: appState.positionType,
   );
 
   final endRobot = Robot.fromInverse(
@@ -65,6 +70,7 @@ PathFindingResult computePathFinding(AppStateData appState) {
     x: appState.endX,
     y: appState.endY,
     obstacles: appState.obstacles,
+    positionType: appState.endPositionType,
   );
 
   final startA1 = normalizedDegree(

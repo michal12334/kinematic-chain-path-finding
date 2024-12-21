@@ -11,8 +11,6 @@ class Robot {
     required this.y,
     this.x1,
     this.y1,
-    this.x2,
-    this.y2,
   });
 
   factory Robot.fromInverse({
@@ -21,6 +19,7 @@ class Robot {
     required double x,
     required double y,
     required List<Obstacle> obstacles,
+    required RobotPositionType positionType,
   }) {
     double? x1, x2, y1, y2;
 
@@ -121,7 +120,12 @@ class Robot {
       }
     }
 
-    return Robot(l1: l1, l2: l2, x: x, y: y, x1: x1, y1: y1, x2: x2, y2: y2);
+    if (positionType == RobotPositionType.alternative) {
+      x1 = x2;
+      y1 = y2;
+    }
+
+    return Robot(l1: l1, l2: l2, x: x, y: y, x1: x1, y1: y1);
   }
 
   factory Robot.fromAngles(
@@ -184,6 +188,4 @@ class Robot {
 
   late final double? x1;
   late final double? y1;
-  late final double? x2;
-  late final double? y2;
 }

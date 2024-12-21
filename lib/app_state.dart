@@ -42,6 +42,7 @@ abstract class AppStateBase with Store {
     x: 0.5,
     y: 0,
     obstacles: List.empty(),
+    positionType: RobotPositionType.basic,
   );
   @observable
   Robot endRobot = Robot.fromInverse(
@@ -50,6 +51,7 @@ abstract class AppStateBase with Store {
     x: -0.5,
     y: 0,
     obstacles: List.empty(),
+    positionType: RobotPositionType.basic,
   );
 
   List<(int, int)>? path;
@@ -66,6 +68,7 @@ abstract class AppStateBase with Store {
       x: x,
       y: y,
       obstacles: obstacles,
+      positionType: positionType,
     );
     endRobot = Robot.fromInverse(
       l1: l1,
@@ -73,6 +76,7 @@ abstract class AppStateBase with Store {
       x: endX,
       y: endY,
       obstacles: obstacles,
+      positionType: endPositionType,
     );
   }
 
@@ -85,6 +89,7 @@ abstract class AppStateBase with Store {
       x: x,
       y: y,
       obstacles: obstacles,
+      positionType: positionType,
     );
     endRobot = Robot.fromInverse(
       l1: l1,
@@ -92,26 +97,47 @@ abstract class AppStateBase with Store {
       x: endX,
       y: endY,
       obstacles: obstacles,
+      positionType: endPositionType,
     );
   }
 
   @action
   void setX(double x) {
     this.x = x;
-    startRobot =
-        Robot.fromInverse(l1: l1, l2: l2, x: x, y: y, obstacles: obstacles);
+    startRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: x,
+      y: y,
+      obstacles: obstacles,
+      positionType: positionType,
+    );
   }
 
   @action
   void setY(double y) {
     this.y = y;
-    startRobot =
-        Robot.fromInverse(l1: l1, l2: l2, x: x, y: y, obstacles: obstacles);
+    startRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: x,
+      y: y,
+      obstacles: obstacles,
+      positionType: positionType,
+    );
   }
 
   @action
   void setPositionType(RobotPositionType positionType) {
     this.positionType = positionType;
+    startRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: x,
+      y: y,
+      obstacles: obstacles,
+      positionType: positionType,
+    );
   }
 
   @action
@@ -123,6 +149,7 @@ abstract class AppStateBase with Store {
       x: endX,
       y: endY,
       obstacles: obstacles,
+      positionType: endPositionType,
     );
   }
 
@@ -135,12 +162,21 @@ abstract class AppStateBase with Store {
       x: endX,
       y: endY,
       obstacles: obstacles,
+      positionType: endPositionType,
     );
   }
 
   @action
   void setEndPositionType(RobotPositionType positionType) {
     endPositionType = positionType;
+    endRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: endX,
+      y: endY,
+      obstacles: obstacles,
+      positionType: endPositionType,
+    );
   }
 
   @action
@@ -160,6 +196,8 @@ abstract class AppStateBase with Store {
         endX,
         endY,
         obstacles,
+        positionType,
+        endPositionType,
       ),
     );
     final completer = Completer<ui.Image>();
@@ -201,6 +239,7 @@ abstract class AppStateBase with Store {
       x: x,
       y: y,
       obstacles: obstacles,
+      positionType: positionType,
     );
     endRobot = Robot.fromInverse(
       l1: l1,
@@ -208,6 +247,7 @@ abstract class AppStateBase with Store {
       x: endX,
       y: endY,
       obstacles: obstacles,
+      positionType: endPositionType,
     );
   }
 
