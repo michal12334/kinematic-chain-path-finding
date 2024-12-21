@@ -194,7 +194,7 @@ abstract class AppStateBase with Store {
 
   @action
   void addObstacle(Obstacle obstacle) {
-    obstacles.add(obstacle);
+    obstacles = [...obstacles, obstacle];
     startRobot = Robot.fromInverse(
       l1: l1,
       l2: l2,
@@ -209,6 +209,30 @@ abstract class AppStateBase with Store {
       y: endY,
       obstacles: obstacles,
     );
+  }
+
+  @action
+  void updateObstacleStartX(int index, double x) {
+    obstacles[index].startX = x;
+    obstacles = [...obstacles];
+  }
+
+  @action
+  void updateObstacleStartY(int index, double y) {
+    obstacles[index].startY = y;
+    obstacles = [...obstacles];
+  }
+
+  @action
+  void updateObstacleEndX(int index, double x) {
+    obstacles[index].endX = x;
+    obstacles = [...obstacles];
+  }
+
+  @action
+  void updateObstacleEndY(int index, double y) {
+    obstacles[index].endY = y;
+    obstacles = [...obstacles];
   }
 }
 

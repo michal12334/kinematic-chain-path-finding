@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kinematic_chain_path_finding/app_state.dart';
+import 'package:kinematic_chain_path_finding/obstacles.dart';
 import 'package:kinematic_chain_path_finding/path_finding.dart';
 import 'package:kinematic_chain_path_finding/robot_parameters.dart';
 
@@ -23,6 +24,7 @@ class _SettingsBarState extends State<SettingsBar> {
       body: switch (currentPageIndex) {
         0 => RobotParameters(appState: appState),
         1 => PathFinding(appState: appState),
+        2 => Obstacles(appState: appState),
         _ => throw Exception(),
       },
       bottomNavigationBar: NavigationBar(
@@ -40,6 +42,10 @@ class _SettingsBarState extends State<SettingsBar> {
           NavigationDestination(
             icon: Icon(Icons.account_tree_rounded),
             label: 'Path Finding',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.window_rounded),
+            label: 'Obstacles',
           ),
         ],
       ),

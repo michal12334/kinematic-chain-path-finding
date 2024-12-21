@@ -351,6 +351,50 @@ mixin _$AppState on AppStateBase, Store {
   }
 
   @override
+  void updateObstacleStartX(int index, double x) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.updateObstacleStartX');
+    try {
+      return super.updateObstacleStartX(index, x);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateObstacleStartY(int index, double y) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.updateObstacleStartY');
+    try {
+      return super.updateObstacleStartY(index, y);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateObstacleEndX(int index, double x) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.updateObstacleEndX');
+    try {
+      return super.updateObstacleEndX(index, x);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateObstacleEndY(int index, double y) {
+    final _$actionInfo = _$AppStateBaseActionController.startAction(
+        name: 'AppStateBase.updateObstacleEndY');
+    try {
+      return super.updateObstacleEndY(index, y);
+    } finally {
+      _$AppStateBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 l1: ${l1},
