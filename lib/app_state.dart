@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:kinematic_chain_path_finding/compute_path_finding.dart';
 import 'package:kinematic_chain_path_finding/robot.dart';
 import 'package:mobx/mobx.dart';
@@ -35,9 +36,21 @@ abstract class AppStateBase with Store {
   ui.Image? image;
 
   @observable
-  Robot startRobot = Robot.fromInverse(l1: 0.3, l2: 0.5, x: 0.5, y: 0);
+  Robot startRobot = Robot.fromInverse(
+    l1: 0.3,
+    l2: 0.5,
+    x: 0.5,
+    y: 0,
+    obstacles: List.empty(),
+  );
   @observable
-  Robot endRobot = Robot.fromInverse(l1: 0.3, l2: 0.5, x: -0.5, y: 0);
+  Robot endRobot = Robot.fromInverse(
+    l1: 0.3,
+    l2: 0.5,
+    x: -0.5,
+    y: 0,
+    obstacles: List.empty(),
+  );
 
   List<(int, int)>? path;
 
@@ -47,27 +60,53 @@ abstract class AppStateBase with Store {
   @action
   void setL1(double l1) {
     this.l1 = l1;
-    startRobot = Robot.fromInverse(l1: l1, l2: l2, x: x, y: y);
-    endRobot = Robot.fromInverse(l1: l1, l2: l2, x: endX, y: endY);
+    startRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: x,
+      y: y,
+      obstacles: obstacles,
+    );
+    endRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: endX,
+      y: endY,
+      obstacles: obstacles,
+    );
   }
 
   @action
   void setL2(double l2) {
     this.l2 = l2;
-    startRobot = Robot.fromInverse(l1: l1, l2: l2, x: x, y: y);
-    endRobot = Robot.fromInverse(l1: l1, l2: l2, x: endX, y: endY);
+    startRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: x,
+      y: y,
+      obstacles: obstacles,
+    );
+    endRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: endX,
+      y: endY,
+      obstacles: obstacles,
+    );
   }
 
   @action
   void setX(double x) {
     this.x = x;
-    startRobot = Robot.fromInverse(l1: l1, l2: l2, x: x, y: y);
+    startRobot =
+        Robot.fromInverse(l1: l1, l2: l2, x: x, y: y, obstacles: obstacles);
   }
 
   @action
   void setY(double y) {
     this.y = y;
-    startRobot = Robot.fromInverse(l1: l1, l2: l2, x: x, y: y);
+    startRobot =
+        Robot.fromInverse(l1: l1, l2: l2, x: x, y: y, obstacles: obstacles);
   }
 
   @action
@@ -78,13 +117,25 @@ abstract class AppStateBase with Store {
   @action
   void setEndX(double x) {
     endX = x;
-    endRobot = Robot.fromInverse(l1: l1, l2: l2, x: endX, y: endY);
+    endRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: endX,
+      y: endY,
+      obstacles: obstacles,
+    );
   }
 
   @action
   void setEndY(double y) {
     endY = y;
-    endRobot = Robot.fromInverse(l1: l1, l2: l2, x: endX, y: endY);
+    endRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: endX,
+      y: endY,
+      obstacles: obstacles,
+    );
   }
 
   @action
@@ -108,6 +159,7 @@ abstract class AppStateBase with Store {
         y,
         endX,
         endY,
+        obstacles,
       ),
     );
     final completer = Completer<ui.Image>();
@@ -136,12 +188,27 @@ abstract class AppStateBase with Store {
       l2,
       path![index].$1.toDouble() * 2 * 3.14 / 360,
       path![index].$2.toDouble() * 2 * 3.14 / 360,
+      obstacles,
     );
   }
 
   @action
   void addObstacle(Obstacle obstacle) {
     obstacles.add(obstacle);
+    startRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: x,
+      y: y,
+      obstacles: obstacles,
+    );
+    endRobot = Robot.fromInverse(
+      l1: l1,
+      l2: l2,
+      x: endX,
+      y: endY,
+      obstacles: obstacles,
+    );
   }
 }
 
@@ -150,11 +217,17 @@ enum RobotPositionType {
   alternative,
 }
 
+@JsonSerializable()
 class Obstacle {
   Obstacle(this.startX, this.startY, this.endX, this.endY);
+
+  factory Obstacle.fromJson(Map<String, dynamic> json) =>
+      _$ObstacleFromJson(json);
 
   double startX;
   double startY;
   double endX;
   double endY;
+
+  Map<String, dynamic> toJson() => _$ObstacleToJson(this);
 }

@@ -3,6 +3,24 @@
 part of 'app_state.dart';
 
 // **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Obstacle _$ObstacleFromJson(Map<String, dynamic> json) => Obstacle(
+      (json['startX'] as num).toDouble(),
+      (json['startY'] as num).toDouble(),
+      (json['endX'] as num).toDouble(),
+      (json['endY'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$ObstacleToJson(Obstacle instance) => <String, dynamic>{
+      'startX': instance.startX,
+      'startY': instance.startY,
+      'endX': instance.endX,
+      'endY': instance.endY,
+    };
+
+// **************************************************************************
 // StoreGenerator
 // **************************************************************************
 

@@ -3,13 +3,22 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kinematic_chain_path_finding/app_state.dart';
 import 'package:kinematic_chain_path_finding/robot.dart';
 
 part 'compute_path_finding.g.dart';
 
 @JsonSerializable()
 class AppStateData {
-  AppStateData(this.l1, this.l2, this.x, this.y, this.endX, this.endY);
+  AppStateData(
+    this.l1,
+    this.l2,
+    this.x,
+    this.y,
+    this.endX,
+    this.endY,
+    this.obstacles,
+  );
 
   factory AppStateData.fromJson(Map<String, dynamic> json) =>
       _$AppStateDataFromJson(json);
@@ -22,6 +31,8 @@ class AppStateData {
 
   final double endX;
   final double endY;
+
+  final List<Obstacle> obstacles;
 
   Map<String, dynamic> toJson() => _$AppStateDataToJson(this);
 }
@@ -45,6 +56,7 @@ PathFindingResult computePathFinding(AppStateData appState) {
     l2: appState.l2,
     x: appState.x,
     y: appState.y,
+    obstacles: appState.obstacles,
   );
 
   final endRobot = Robot.fromInverse(
@@ -52,6 +64,7 @@ PathFindingResult computePathFinding(AppStateData appState) {
     l2: appState.l2,
     x: appState.endX,
     y: appState.endY,
+    obstacles: appState.obstacles,
   );
 
   final startA1 = normalizedDegree(

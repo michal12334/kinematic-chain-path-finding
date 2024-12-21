@@ -13,6 +13,9 @@ AppStateData _$AppStateDataFromJson(Map<String, dynamic> json) => AppStateData(
       (json['y'] as num).toDouble(),
       (json['endX'] as num).toDouble(),
       (json['endY'] as num).toDouble(),
+      (json['obstacles'] as List<dynamic>)
+          .map((e) => Obstacle.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
@@ -23,6 +26,7 @@ Map<String, dynamic> _$AppStateDataToJson(AppStateData instance) =>
       'y': instance.y,
       'endX': instance.endX,
       'endY': instance.endY,
+      'obstacles': instance.obstacles,
     };
 
 PathFindingResult _$PathFindingResultFromJson(Map<String, dynamic> json) =>
