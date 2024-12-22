@@ -27,7 +27,9 @@ class Robot {
       x1 = x2 = (l1 * l1 - l2 * l2 + x * x) / (2 * x);
       y1 = sqrt(l1 * l1 - pow(l1 * l1 - l2 * l2 + x * x, 2) / (4 * x * x));
       y2 = -y1;
-    } else if (x * x + y * y > 0 && (l1 + l2) * (l1 + l2) >= x * x + y * y) {
+    } else if (x * x + y * y > 0 &&
+        (l1 + l2) * (l1 + l2) >= x * x + y * y &&
+        (l1 - l2) * (l1 - l2) <= x * x + y * y) {
       x1 = 1 /
           (2 * (x * x + y * y)) *
           (-sqrt(
