@@ -186,31 +186,36 @@ abstract class AppStateBase with Store {
     }
 
     floodFillIsBeingComputed = true;
-    final pfResult = await compute(
-      computePathFinding,
-      AppStateData(
-        l1,
-        l2,
-        x,
-        y,
-        endX,
-        endY,
-        obstacles,
-        positionType,
-        endPositionType,
-      ),
-    );
-    final completer = Completer<ui.Image>();
-    ui.decodeImageFromPixels(
-      Uint8List.fromList(pfResult.pixels),
-      360,
-      360,
-      ui.PixelFormat.rgba8888,
-      completer.complete,
-    );
-    image = await completer.future;
-    path = pfResult.path;
-    floodFillIsBeingComputed = false;
+
+    try {
+      final pfResult = await compute(
+        computePathFinding,
+        AppStateData(
+          l1,
+          l2,
+          x,
+          y,
+          endX,
+          endY,
+          obstacles,
+          positionType,
+          endPositionType,
+        ),
+      );
+      final completer = Completer<ui.Image>();
+      ui.decodeImageFromPixels(
+        Uint8List.fromList(pfResult.pixels),
+        360,
+        360,
+        ui.PixelFormat.rgba8888,
+        completer.complete,
+      );
+      image = await completer.future;
+      path = pfResult.path;
+    } catch (_) {
+    } finally {
+      floodFillIsBeingComputed = false;
+    }
   }
 
   @action
